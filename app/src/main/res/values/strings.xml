@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Shared Preference App</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="red">Red</string>
+    <string name="blue">Blue</string>
+    <string name="green">Green</string>
+    <string name="enter_list_item_count">Enter List Item Count:</string>
+    <string name="enter_count">Enter Count</string>
+    <string name="save">Save</string>
+    <string name="clear">Clear</string>
+    <string name="recycler_view">Recycler View</string>
+    <string name="previous_selected_color">Previous selected color</string>
+    <string name="selected_color">Selected color</string>
+    <string name="saved">Saved</string>
+    <string name="cleared">Shared Preference cleared</string>
+</resources>
