@@ -32,7 +32,7 @@ class SharedPrefsFragment : Fragment() {
     lateinit var sharedPreferences: SharedPreferences
     lateinit var editor: Editor
     lateinit var adapter: RecyclerAdapter
-    lateinit var colorModelView: ColorModelView
+    var color: Int = 0
     var count: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,30 +59,31 @@ class SharedPrefsFragment : Fragment() {
         editor = sharedPreferences.edit()
 
         count = sharedPreferences.getInt("Count", 0)
-        adapter = RecyclerAdapter()
+        color = sharedPreferences.getInt("Color", 0)
+        adapter = RecyclerAdapter(mainActivity)
         binding?.recyclerView?.layoutManager = LinearLayoutManager(mainActivity,LinearLayoutManager.VERTICAL, false)
         binding?.recyclerView?.adapter = adapter
-        colorModelView = ViewModelProvider(this)[ColorModelView::class.java]
-
-        binding?.etCount?.setText(count.toString())
-
-//        binding?.etcolor?.setText()
-
         binding?.btnRed?.setOnClickListener {
-            colorModelView.color.setValue(R.color.red)
+            adapter.updateColor(0)
         }
         binding?.btnBlue?.setOnClickListener {
-            colorModelView.color.setValue(R.color.blue)
+            adapter.updateColor(1)
         }
         binding?.btnGreen?.setOnClickListener {
-            colorModelView.color.setValue(R.color.green)
+            adapter.updateColor(2)
         }
 
         binding?.btnSave?.setOnClickListener {
-            if (binding?.etCount?.text.toString().isNullOrEmpty()){
+//            binding?.etCount?.setText(count.toString())
+            var countText = binding?.etCount?.text.toString()
+
+            if (countText.isNullOrEmpty()){
                 binding?.etCount?.error = resources.getString(R.string.enter_count)
             }else{
-                 editor.putInt("Count",(binding?.etCount?.text?.toString()?:"0").toInt())
+                var countValue = countText.toInt()
+                 adapter.updateCount(countValue)
+                 editor.putInt("Count", countValue)
+                 editor.putInt("Color",color)
                  editor.commit()
                  editor.apply()
                 Toast.makeText(requireContext(),resources.getString(R.string.saved),Toast.LENGTH_SHORT).show()

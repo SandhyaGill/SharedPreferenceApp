@@ -4,16 +4,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
-class RecyclerAdapter ( var count: List<Item>): RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+class RecyclerAdapter (var activity: MainActivity ): RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+    var count = 0
+    var color = 0
     inner class ViewHolder(var view: View): RecyclerView.ViewHolder(view){
-          var tvRecyclerView = view.findViewById<TextView>(R.id.tvRecyclerView)
+          var clMain = view.findViewById<ConstraintLayout>(R.id.clMain)
 
-        fun bind(item: Item){
-            tvRecyclerView.text = item.count.toString()
-            tvRecyclerView.setBackgroundColor(item.color)
-        }
+
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerAdapter.ViewHolder {
        var view = LayoutInflater.from(parent.context).inflate(R.layout.recycler_layout,parent,false)
@@ -21,11 +22,25 @@ class RecyclerAdapter ( var count: List<Item>): RecyclerView.Adapter<RecyclerAda
     }
 
     override fun onBindViewHolder(holder: RecyclerAdapter.ViewHolder, position: Int) {
-       holder.bind(count[position])
-//        holder.tvRecyclerView.setText("this is text $position")
+        when(color){
+            0 -> holder.clMain.setBackgroundColor(ContextCompat.getColor(activity, R.color.red))
+            1 -> holder.clMain.setBackgroundColor(ContextCompat.getColor(activity, R.color.blue))
+            2 -> holder.clMain.setBackgroundColor(ContextCompat.getColor(activity, R.color.green))
+        }
+
     }
 
     override fun getItemCount(): Int {
-         return count.size
+         return count
+    }
+
+    fun updateCount(count1 : Int){
+         count = count1
+        notifyDataSetChanged()
+    }
+
+    fun updateColor(color1 : Int){
+        color = color1
+        notifyDataSetChanged()
     }
 }
