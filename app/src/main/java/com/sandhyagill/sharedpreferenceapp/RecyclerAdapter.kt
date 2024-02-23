@@ -34,13 +34,13 @@ class RecyclerAdapter (var activity: MainActivity ): RecyclerView.Adapter<Recycl
          return count
     }
 
-    fun updateCount(count1 : Int){
-         count = count1
+    fun updateCount(count : Int){
+         this.count = count
         notifyDataSetChanged()
     }
 
-    fun updateColor(color1 : Int){
-        color = color1
+    fun updateColor(color : Int){
+        this.color = color
         notifyDataSetChanged()
     }
 }

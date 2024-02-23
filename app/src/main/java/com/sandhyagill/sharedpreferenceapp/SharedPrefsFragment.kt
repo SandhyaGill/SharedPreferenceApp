@@ -57,12 +57,12 @@ class SharedPrefsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         sharedPreferences = mainActivity.getSharedPreferences(mainActivity.getString(R.string.app_name), MODE_PRIVATE)
         editor = sharedPreferences.edit()
-
-        count = sharedPreferences.getInt("Count", 0)
-        color = sharedPreferences.getInt("Color", 0)
         adapter = RecyclerAdapter(mainActivity)
         binding?.recyclerView?.layoutManager = LinearLayoutManager(mainActivity,LinearLayoutManager.VERTICAL, false)
         binding?.recyclerView?.adapter = adapter
+
+        updateUI()
+       
         binding?.btnRed?.setOnClickListener {
             adapter.updateColor(0)
         }
@@ -74,19 +74,16 @@ class SharedPrefsFragment : Fragment() {
         }
 
         binding?.btnSave?.setOnClickListener {
-//            binding?.etCount?.setText(count.toString())
-            var countText = binding?.etCount?.text.toString()
-
-            if (countText.isNullOrEmpty()){
+            if (binding?.etCount?.text.toString().isNullOrEmpty()){
                 binding?.etCount?.error = resources.getString(R.string.enter_count)
             }else{
-                var countValue = countText.toInt()
-                 adapter.updateCount(countValue)
-                 editor.putInt("Count", countValue)
+
+                 editor.putInt("Count", (binding?.etCount?.text?.toString()?:"0").toInt())
                  editor.putInt("Color",color)
                  editor.commit()
                  editor.apply()
                 Toast.makeText(requireContext(),resources.getString(R.string.saved),Toast.LENGTH_SHORT).show()
+                updateUI()
             }
         }
         binding?.btnClear?.setOnClickListener {
@@ -94,7 +91,15 @@ class SharedPrefsFragment : Fragment() {
             editor.apply()
             editor.commit()
             Toast.makeText(requireContext(),resources.getString(R.string.cleared),Toast.LENGTH_SHORT).show()
+            updateUI()
         }
+    }
+    fun updateUI(){
+        count = sharedPreferences.getInt("Count", 0)
+        color = sharedPreferences.getInt("Color", 0)
+        binding?.etCount?.setText(count.toString())
+        adapter.updateCount(count)
+
     }
 
     companion object {
