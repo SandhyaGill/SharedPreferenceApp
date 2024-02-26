@@ -62,14 +62,17 @@ class SharedPrefsFragment : Fragment() {
         binding?.recyclerView?.adapter = adapter
 
         updateUI()
-       
+
         binding?.btnRed?.setOnClickListener {
+            color = 0
             adapter.updateColor(0)
         }
         binding?.btnBlue?.setOnClickListener {
+            color = 1
             adapter.updateColor(1)
         }
         binding?.btnGreen?.setOnClickListener {
+            color = 2
             adapter.updateColor(2)
         }
 
